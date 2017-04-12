@@ -1,0 +1,69 @@
+<!doctype html>
+<body style = "background-color:white;">
+<title>FindyourAirbnb</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
+<div class=page>
+  <h1><font color= "red"> Airbnb Listing Finder </font></h1>
+<form action = >
+
+ <p><font size="4" color= "black">What type of listing are you looking for? </font> </p>
+  
+    <textarea style = "background-color:white" id = "txtName" rows = "5" cols = "55">
+  </textarea>
+
+ <input type = "button"
+    value = "submit"
+    onclick = "getwords()" /><br>
+
+<p id="listing"><font size="4">Here are the top listings that you would be interested in</font></p>
+ 
+
+
+</form>   
+
+   <script type = "text/javascript">
+  // from textBoxes.html
+  //don't need this one anymore!!
+  //function sayHi(){
+  //var txtName = document.getElementById("txtName");
+ // var txtOutput = document.getElementById("txtOutput");
+  //var name = txtName.value;
+  //txtOutput.value = "Hi there, " + name + "!"
+  //} // end sayHi
+
+     function getwords(){
+      console.log("here");
+       $.ajax({
+         type: "POST",
+         contentType: "application/json; charset=utf-8",
+         url: "/gof",
+         dataType: "json",
+         async: true,
+         data: "{\"grid\": [\""+document.getElementById("txtName").value+"\"]}",
+         //data: "{\"grid\": ["+1+"]}",
+           success: function (d) {
+          console.log(d);
+          
+          p = document.getElementById('listing')
+          for (i=0;i<d.words.length;i++) {
+           p.innerHTML = p.innerHTML + '<br>' + '<br>' + i + ". ";
+           for (j=0;j<4;j++) {
+           
+           p.innerHTML = p.innerHTML + d.words[i][j] + '<br>';
+          //var txtOutput = document.getElementById("txtOutput");
+          //txtOutput.value = d.words;
+       }
+              }
+         }
+       })
+     }
+
+
+  
+
+</script>
+       
+
+  </body>
+</html>
